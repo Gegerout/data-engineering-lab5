@@ -1,0 +1,7 @@
+{
+  "elapsed_s": 7.277,
+  "process_peak_rss_bytes": 119046144,
+  "cgroup_memory_peak_bytes": 112902144,
+  "margin": 1.25,
+  "selected_limit_mib": 160
+}

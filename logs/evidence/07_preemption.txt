@@ -1,0 +1,33 @@
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/low.yaml
+pod/low created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/low --timeout=60s
+pod/low condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/high.yaml
+pod/high created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/high --timeout=90s
+pod/high condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=low --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE     REASON      OBJECT    MESSAGE
+5s          Normal   Scheduled   pod/low   Successfully assigned lab5/low to lab5-worker
+5s          Normal   Pulled      pod/low   Container image "lab5-pairs:1" already present on machine
+5s          Normal   Created     pod/low   Created container: hold
+5s          Normal   Started     pod/low   Started container hold
+4s          Normal   Preempted   pod/low   Preempted by pod 055233c7-44a9-4ed2-b34b-9095d1e69b2b on node lab5-worker
+3s          Normal   Killing     pod/low   Stopping container hold
+pod=low deleted
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=high --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE      REASON             OBJECT     MESSAGE
+4s          Warning   FailedScheduling   pod/high   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }.
+1s          Normal    Scheduled          pod/high   Successfully assigned lab5/high to lab5-worker
+1s          Normal    Pulled             pod/high   Container image "lab5-pairs:1" already present on machine
+1s          Normal    Created            pod/high   Created container: hold
+0s          Normal    Started            pod/high   Started container hold
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get pods -o wide
+NAME                      READY   STATUS      RESTARTS   AGE     IP            NODE          NOMINATED NODE   READINESS GATES
+high                      1/1     Running     0          4s      10.244.1.11   lab5-worker   <none>           <none>
+pairs-measure-ctt2t       0/1     Completed   0          2m7s    10.244.1.3    lab5-worker   <none>           <none>
+pairs-oom-c664j           0/1     OOMKilled   0          2m44s   10.244.1.2    lab5-worker   <none>           <none>
+pairs-sized-rww7z         0/1     Completed   0          115s    10.244.1.4    lab5-worker   <none>           <none>
+rustfs-59797768f8-nlcwp   1/1     Running     0          47s     10.244.1.7    lab5-worker   <none>           <none>
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 delete pod low high --wait=true --ignore-not-found=true
+pod "high" deleted

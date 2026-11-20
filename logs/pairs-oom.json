@@ -1,0 +1,363 @@
+{
+  "job": {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "annotations": {
+        "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"pairs-oom\",\"namespace\":\"lab5\"},\"spec\":{\"backoffLimit\":0,\"template\":{\"spec\":{\"containers\":[{\"args\":[\"single\"],\"env\":[{\"name\":\"S3_ENDPOINT\",\"value\":\"http://host.docker.internal:9010\"},{\"name\":\"RUN\",\"value\":\"pairs-oom\"},{\"name\":\"PARTS\",\"value\":\"1\"}],\"envFrom\":[{\"secretRef\":{\"name\":\"s3-credentials\"}}],\"image\":\"lab5-pairs:1\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"pairs\",\"resources\":{\"limits\":{\"cpu\":\"1\",\"memory\":\"64Mi\"},\"requests\":{\"cpu\":\"500m\",\"memory\":\"64Mi\"}}}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"lab5-worker\"},\"restartPolicy\":\"Never\"}}}}\n"
+      },
+      "creationTimestamp": "2026-11-20T07:56:27Z",
+      "generation": 1,
+      "labels": {
+        "batch.kubernetes.io/controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567",
+        "batch.kubernetes.io/job-name": "pairs-oom",
+        "controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567",
+        "job-name": "pairs-oom"
+      },
+      "name": "pairs-oom",
+      "namespace": "lab5",
+      "resourceVersion": "678",
+      "uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567"
+    },
+    "spec": {
+      "backoffLimit": 0,
+      "completionMode": "NonIndexed",
+      "completions": 1,
+      "manualSelector": false,
+      "parallelism": 1,
+      "podReplacementPolicy": "TerminatingOrFailed",
+      "selector": {
+        "matchLabels": {
+          "batch.kubernetes.io/controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567"
+        }
+      },
+      "suspend": false,
+      "template": {
+        "metadata": {
+          "creationTimestamp": null,
+          "labels": {
+            "batch.kubernetes.io/controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567",
+            "batch.kubernetes.io/job-name": "pairs-oom",
+            "controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567",
+            "job-name": "pairs-oom"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "single"
+              ],
+              "env": [
+                {
+                  "name": "S3_ENDPOINT",
+                  "value": "http://host.docker.internal:9010"
+                },
+                {
+                  "name": "RUN",
+                  "value": "pairs-oom"
+                },
+                {
+                  "name": "PARTS",
+                  "value": "1"
+                }
+              ],
+              "envFrom": [
+                {
+                  "secretRef": {
+                    "name": "s3-credentials"
+                  }
+                }
+              ],
+              "image": "lab5-pairs:1",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "pairs",
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "500m",
+                  "memory": "64Mi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "nodeSelector": {
+            "kubernetes.io/hostname": "lab5-worker"
+          },
+          "restartPolicy": "Never",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "terminationGracePeriodSeconds": 30
+        }
+      }
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastProbeTime": "2026-11-20T07:57:03Z",
+          "lastTransitionTime": "2026-11-20T07:57:03Z",
+          "message": "Job has reached the specified backoff limit",
+          "reason": "BackoffLimitExceeded",
+          "status": "True",
+          "type": "FailureTarget"
+        },
+        {
+          "lastProbeTime": "2026-11-20T07:57:04Z",
+          "lastTransitionTime": "2026-11-20T07:57:04Z",
+          "message": "Job has reached the specified backoff limit",
+          "reason": "BackoffLimitExceeded",
+          "status": "True",
+          "type": "Failed"
+        }
+      ],
+      "failed": 1,
+      "ready": 0,
+      "startTime": "2026-11-20T07:56:27Z",
+      "terminating": 0,
+      "uncountedTerminatedPods": {}
+    }
+  },
+  "pods": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "creationTimestamp": "2026-11-20T07:56:27Z",
+          "generateName": "pairs-oom-",
+          "labels": {
+            "batch.kubernetes.io/controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567",
+            "batch.kubernetes.io/job-name": "pairs-oom",
+            "controller-uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567",
+            "job-name": "pairs-oom"
+          },
+          "name": "pairs-oom-c664j",
+          "namespace": "lab5",
+          "ownerReferences": [
+            {
+              "apiVersion": "batch/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Job",
+              "name": "pairs-oom",
+              "uid": "cc5bd0bf-2ff5-4334-a786-eb6e6be2f567"
+            }
+          ],
+          "resourceVersion": "677",
+          "uid": "1c8dd7cd-2add-4ded-a670-97b325f18991"
+        },
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "single"
+              ],
+              "env": [
+                {
+                  "name": "S3_ENDPOINT",
+                  "value": "http://host.docker.internal:9010"
+                },
+                {
+                  "name": "RUN",
+                  "value": "pairs-oom"
+                },
+                {
+                  "name": "PARTS",
+                  "value": "1"
+                }
+              ],
+              "envFrom": [
+                {
+                  "secretRef": {
+                    "name": "s3-credentials"
+                  }
+                }
+              ],
+              "image": "lab5-pairs:1",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "pairs",
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "64Mi"
+                },
+                "requests": {
+                  "cpu": "500m",
+                  "memory": "64Mi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-65xs5",
+                  "readOnly": true
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "nodeName": "lab5-worker",
+          "nodeSelector": {
+            "kubernetes.io/hostname": "lab5-worker"
+          },
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Never",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "name": "kube-api-access-65xs5",
+              "projected": {
+                "defaultMode": 420,
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "expirationSeconds": 3607,
+                      "path": "token"
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "key": "ca.crt",
+                          "path": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "fieldRef": {
+                            "apiVersion": "v1",
+                            "fieldPath": "metadata.namespace"
+                          },
+                          "path": "namespace"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-20T07:57:03Z",
+              "status": "False",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-20T07:56:27Z",
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-20T07:57:02Z",
+              "reason": "PodFailed",
+              "status": "False",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-20T07:57:02Z",
+              "reason": "PodFailed",
+              "status": "False",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-11-20T07:56:27Z",
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "containerID": "containerd://310c28ec86ce28dce2f982161eea432974197c3d4d81c25722e7505723162c5c",
+              "image": "docker.io/library/lab5-pairs:1",
+              "imageID": "sha256:67ef68cac2ca97f954b0b780ef0b80caae44ea82bfd63e4cf72eddf2f92a7c30",
+              "lastState": {},
+              "name": "pairs",
+              "ready": false,
+              "restartCount": 0,
+              "started": false,
+              "state": {
+                "terminated": {
+                  "containerID": "containerd://310c28ec86ce28dce2f982161eea432974197c3d4d81c25722e7505723162c5c",
+                  "exitCode": 137,
+                  "finishedAt": "2026-11-20T07:57:01Z",
+                  "reason": "OOMKilled",
+                  "startedAt": "2026-11-20T07:57:01Z"
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-65xs5",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                }
+              ]
+            }
+          ],
+          "hostIP": "172.28.0.3",
+          "hostIPs": [
+            {
+              "ip": "172.28.0.3"
+            }
+          ],
+          "phase": "Failed",
+          "podIP": "10.244.1.2",
+          "podIPs": [
+            {
+              "ip": "10.244.1.2"
+            }
+          ],
+          "qosClass": "Burstable",
+          "startTime": "2026-11-20T07:56:27Z"
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  }
+}

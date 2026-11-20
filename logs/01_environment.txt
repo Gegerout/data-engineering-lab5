@@ -1,0 +1,15 @@
+$ tmp/bin/kind version
+kind v0.27.0 go1.23.6 darwin/arm64
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' version
+Client Version: v1.32.2
+Kustomize Version: v5.5.0
+Server Version: v1.32.2
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' get nodes -o wide
+NAME                 STATUS   ROLES           AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION     CONTAINER-RUNTIME
+lab5-control-plane   Ready    control-plane   5m42s   v1.32.2   172.28.0.2    <none>        Debian GNU/Linux 12 (bookworm)   6.10.14-linuxkit   containerd://2.0.3
+lab5-worker          Ready    <none>          5m32s   v1.32.2   172.28.0.3    <none>        Debian GNU/Linux 12 (bookworm)   6.10.14-linuxkit   containerd://2.0.3
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' get node lab5-worker -o custom-columns=NAME:.metadata.name,CPU:.status.capacity.cpu,ALLOCATABLE_CPU:.status.allocatable.cpu,MEMORY:.status.allocatable.memory
+NAME          CPU   ALLOCATABLE_CPU   MEMORY
+lab5-worker   12    2                 7500860Ki
+$ docker image inspect lab5-pairs:1 --format '{{.Id}} {{.Architecture}}'
+sha256:9a151bda5fcb662083ad28726b5f117a44fffae7a066ba1acdfd06c087134cc4 arm64

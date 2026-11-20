@@ -1,0 +1,112 @@
+$ python scripts/experiments.py memory
+$ kubectl --kubeconfig 'tmp/kubeconfig' apply -f manifests/job-oom.yaml
+job.batch/pairs-oom created
+$ kubectl -n lab5 get pods -l job-name=pairs-oom -o json
+{"pod": "pairs-oom-c664j", "phase": "Failed", "state": {"terminated": {"containerID": "containerd://310c28ec86ce28dce2f982161eea432974197c3d4d81c25722e7505723162c5c", "exitCode": 137, "finishedAt": "2026-11-20T07:57:01Z", "reason": "OOMKilled", "startedAt": "2026-11-20T07:57:01Z"}}, "resources": {"limits": {"cpu": "1", "memory": "64Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ kubectl --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-oom-c664j
+mode=single index=0 parts=1 input_bytes=847619384
+$ kubectl --kubeconfig 'tmp/kubeconfig' apply -f manifests/job-measure.yaml
+job.batch/pairs-measure created
+$ kubectl -n lab5 get pods -l job-name=pairs-measure -o json
+{"pod": "pairs-measure-ctt2t", "phase": "Succeeded", "state": {"terminated": {"containerID": "containerd://0f1f7dc4c5c9eb993886e948f204671fc6a3bdc15a16ae84b2efbc6ea040913b", "exitCode": 0, "finishedAt": "2026-11-20T07:57:12Z", "reason": "Completed", "startedAt": "2026-11-20T07:57:05Z"}}, "resources": {"limits": {"cpu": "1", "memory": "512Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ kubectl --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-measure-ctt2t
+mode=single index=0 parts=1 input_bytes=847619384
+index=0 split=0 bytes=0-33554431 variant_records=129
+index=0 split=1 bytes=33554432-67108863 variant_records=258
+index=0 split=2 bytes=67108864-100663295 variant_records=376
+index=0 split=3 bytes=100663296-134217727 variant_records=508
+index=0 split=4 bytes=134217728-167772159 variant_records=664
+index=0 split=5 bytes=167772160-201326591 variant_records=796
+index=0 split=6 bytes=201326592-234881023 variant_records=951
+index=0 split=7 bytes=234881024-268435455 variant_records=1071
+index=0 split=8 bytes=268435456-301989887 variant_records=1189
+index=0 split=9 bytes=301989888-335544319 variant_records=1318
+index=0 split=10 bytes=335544320-369098751 variant_records=1518
+index=0 split=11 bytes=369098752-402653183 variant_records=1713
+index=0 split=12 bytes=402653184-436207615 variant_records=1926
+index=0 split=13 bytes=436207616-469762047 variant_records=2140
+index=0 split=14 bytes=469762048-503316479 variant_records=2330
+index=0 split=15 bytes=503316480-536870911 variant_records=2481
+index=0 split=16 bytes=536870912-570425343 variant_records=2606
+index=0 split=17 bytes=570425344-603979775 variant_records=2754
+index=0 split=18 bytes=603979776-637534207 variant_records=2909
+index=0 split=19 bytes=637534208-671088639 variant_records=3017
+index=0 split=20 bytes=671088640-704643071 variant_records=3144
+index=0 split=21 bytes=704643072-738197503 variant_records=3272
+index=0 split=22 bytes=738197504-771751935 variant_records=3426
+index=0 split=23 bytes=771751936-805306367 variant_records=3579
+index=0 split=24 bytes=805306368-838860799 variant_records=3733
+index=0 split=25 bytes=838860800-847619383 variant_records=3771
+output=s3://hh-lake/lab5/pairs-measure/pairs.csv pairs=12308 sum=48175
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+TOP10
+android + kotlin = 784
+ios + swift = 561
+android sdk + kotlin = 514
+java + kotlin = 498
+android + android sdk = 459
+android + java = 418
+android + git = 372
+android sdk + java = 334
+git + kotlin = 307
+dart + flutter = 290
+METRICS {"elapsed_s": 7.277, "process_peak_rss_bytes": 119046144, "cgroup_memory_peak_bytes": 112902144}
+MEASURED peak_bytes=112902144 peak_mib=107.67 margin=1.25 selected_limit=160Mi
+$ kubectl --kubeconfig 'tmp/kubeconfig' apply -f manifests/job-sized.yaml
+job.batch/pairs-sized created
+$ kubectl -n lab5 get pods -l job-name=pairs-sized -o json
+{"pod": "pairs-sized-rww7z", "phase": "Succeeded", "state": {"terminated": {"containerID": "containerd://76da4bd0afb1ec68f9abef7f705a687213e355445519fd8aaf574b47098bf3b1", "exitCode": 0, "finishedAt": "2026-11-20T07:57:25Z", "reason": "Completed", "startedAt": "2026-11-20T07:57:17Z"}}, "resources": {"limits": {"cpu": "1", "memory": "160Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ kubectl --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-sized-rww7z
+mode=single index=0 parts=1 input_bytes=847619384
+index=0 split=0 bytes=0-33554431 variant_records=129
+index=0 split=1 bytes=33554432-67108863 variant_records=258
+index=0 split=2 bytes=67108864-100663295 variant_records=376
+index=0 split=3 bytes=100663296-134217727 variant_records=508
+index=0 split=4 bytes=134217728-167772159 variant_records=664
+index=0 split=5 bytes=167772160-201326591 variant_records=796
+index=0 split=6 bytes=201326592-234881023 variant_records=951
+index=0 split=7 bytes=234881024-268435455 variant_records=1071
+index=0 split=8 bytes=268435456-301989887 variant_records=1189
+index=0 split=9 bytes=301989888-335544319 variant_records=1318
+index=0 split=10 bytes=335544320-369098751 variant_records=1518
+index=0 split=11 bytes=369098752-402653183 variant_records=1713
+index=0 split=12 bytes=402653184-436207615 variant_records=1926
+index=0 split=13 bytes=436207616-469762047 variant_records=2140
+index=0 split=14 bytes=469762048-503316479 variant_records=2330
+index=0 split=15 bytes=503316480-536870911 variant_records=2481
+index=0 split=16 bytes=536870912-570425343 variant_records=2606
+index=0 split=17 bytes=570425344-603979775 variant_records=2754
+index=0 split=18 bytes=603979776-637534207 variant_records=2909
+index=0 split=19 bytes=637534208-671088639 variant_records=3017
+index=0 split=20 bytes=671088640-704643071 variant_records=3144
+index=0 split=21 bytes=704643072-738197503 variant_records=3272
+index=0 split=22 bytes=738197504-771751935 variant_records=3426
+index=0 split=23 bytes=771751936-805306367 variant_records=3579
+index=0 split=24 bytes=805306368-838860799 variant_records=3733
+index=0 split=25 bytes=838860800-847619383 variant_records=3771
+output=s3://hh-lake/lab5/pairs-sized/pairs.csv pairs=12308 sum=48175
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+TOP10
+android + kotlin = 784
+ios + swift = 561
+android sdk + kotlin = 514
+java + kotlin = 498
+android + android sdk = 459
+android + java = 418
+android + git = 372
+android sdk + java = 334
+git + kotlin = 307
+dart + flutter = 290
+METRICS {"elapsed_s": 7.446, "process_peak_rss_bytes": 118870016, "cgroup_memory_peak_bytes": 111972352}
+COMPARE single rows=12308 all_equal=True top10_equal=True
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+android + kotlin = 784
+ios + swift = 561
+android sdk + kotlin = 514
+java + kotlin = 498
+android + android sdk = 459
+android + java = 418
+android + git = 372
+android sdk + java = 334
+git + kotlin = 307
+dart + flutter = 290

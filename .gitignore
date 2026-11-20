@@ -1,0 +1,8 @@
+.env
+.venv/
+tmp/
+materials/
+input/*.csv
+!input/lab3_pairs.csv
+__pycache__/
+.DS_Store

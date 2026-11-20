@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pairs-oom
+  namespace: lab5
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        kubernetes.io/hostname: lab5-worker
+      containers:
+      - name: pairs
+        image: lab5-pairs:1
+        imagePullPolicy: IfNotPresent
+        args:
+        - single
+        envFrom:
+        - secretRef:
+            name: s3-credentials
+        env:
+        - name: S3_ENDPOINT
+          value: http://host.docker.internal:9010
+        - name: RUN
+          value: pairs-oom
+        - name: PARTS
+          value: '1'
+        resources:
+          requests:
+            cpu: 500m
+            memory: 64Mi
+          limits:
+            cpu: '1'
+            memory: 64Mi

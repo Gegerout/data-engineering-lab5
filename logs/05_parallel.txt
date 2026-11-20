@@ -1,0 +1,79 @@
+$ python scripts/experiments.py parallel
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/job-parallel.yaml
+job.batch/pairs-parallel created
+$ kubectl -n lab5 get pods -l job-name=pairs-parallel -o json
+{"pod": "pairs-parallel-0-ph5q5", "phase": "Succeeded", "state": {"terminated": {"containerID": "containerd://f8d6ccf39477f792a94922399d19d86aaaa76bfbd67085fbc378f033151e9129", "exitCode": 0, "finishedAt": "2026-11-20T08:00:03Z", "reason": "Completed", "startedAt": "2026-11-20T08:00:00Z"}}, "resources": {"limits": {"cpu": "1", "memory": "160Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-parallel-0-ph5q5
+mode=map index=0 parts=3 input_bytes=847619384
+index=0 split=0 bytes=0-33554431 variant_records=129
+index=0 split=3 bytes=100663296-134217727 variant_records=261
+index=0 split=6 bytes=201326592-234881023 variant_records=416
+index=0 split=9 bytes=301989888-335544319 variant_records=545
+index=0 split=12 bytes=402653184-436207615 variant_records=758
+index=0 split=15 bytes=503316480-536870911 variant_records=909
+index=0 split=18 bytes=603979776-637534207 variant_records=1064
+index=0 split=21 bytes=704643072-738197503 variant_records=1192
+index=0 split=24 bytes=805306368-838860799 variant_records=1346
+output=s3://hh-lake/lab5/parallel/parts/0.csv pairs=6847 sum=17727
+sha256=e7cf9d7681615370f55520c08fbab16782d72c3a5a2abe133c643b8b0be64618
+METRICS {"elapsed_s": 3.184, "process_peak_rss_bytes": 117227520, "cgroup_memory_peak_bytes": 116744192}
+{"pod": "pairs-parallel-1-26mzg", "phase": "Succeeded", "state": {"terminated": {"containerID": "containerd://256d604c2d9abc68b501adb0cded95046e23feb6891db26fca14d47b34681b3f", "exitCode": 0, "finishedAt": "2026-11-20T08:00:03Z", "reason": "Completed", "startedAt": "2026-11-20T08:00:00Z"}}, "resources": {"limits": {"cpu": "1", "memory": "160Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-parallel-1-26mzg
+mode=map index=1 parts=3 input_bytes=847619384
+index=1 split=1 bytes=33554432-67108863 variant_records=129
+index=1 split=4 bytes=134217728-167772159 variant_records=285
+index=1 split=7 bytes=234881024-268435455 variant_records=405
+index=1 split=10 bytes=335544320-369098751 variant_records=605
+index=1 split=13 bytes=436207616-469762047 variant_records=819
+index=1 split=16 bytes=536870912-570425343 variant_records=944
+index=1 split=19 bytes=637534208-671088639 variant_records=1052
+index=1 split=22 bytes=738197504-771751935 variant_records=1206
+index=1 split=25 bytes=838860800-847619383 variant_records=1244
+output=s3://hh-lake/lab5/parallel/parts/1.csv pairs=5399 sum=15629
+sha256=ff866465e4dca92c7a5977b716253c438f6de8969c12b099e94f763c7f022f78
+METRICS {"elapsed_s": 3.058, "process_peak_rss_bytes": 117751808, "cgroup_memory_peak_bytes": 115007488}
+{"pod": "pairs-parallel-2-7772h", "phase": "Succeeded", "state": {"terminated": {"containerID": "containerd://d56d1a8de77b612ca301be499c805df0f7f15999f1b2ec76bf74682fe3f7b68f", "exitCode": 0, "finishedAt": "2026-11-20T08:00:03Z", "reason": "Completed", "startedAt": "2026-11-20T08:00:00Z"}}, "resources": {"limits": {"cpu": "1", "memory": "160Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-parallel-2-7772h
+mode=map index=2 parts=3 input_bytes=847619384
+index=2 split=2 bytes=67108864-100663295 variant_records=118
+index=2 split=5 bytes=167772160-201326591 variant_records=250
+index=2 split=8 bytes=268435456-301989887 variant_records=368
+index=2 split=11 bytes=369098752-402653183 variant_records=563
+index=2 split=14 bytes=469762048-503316479 variant_records=753
+index=2 split=17 bytes=570425344-603979775 variant_records=901
+index=2 split=20 bytes=671088640-704643071 variant_records=1028
+index=2 split=23 bytes=771751936-805306367 variant_records=1181
+output=s3://hh-lake/lab5/parallel/parts/2.csv pairs=6202 sum=14819
+sha256=37da3488a5b90d51a2fdadf957d0467f76cb969d39bdca1af82d6dd2aae28389
+METRICS {"elapsed_s": 2.958, "process_peak_rss_bytes": 117207040, "cgroup_memory_peak_bytes": 114380800}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/job-reduce.yaml
+job.batch/pairs-reduce created
+$ kubectl -n lab5 get pods -l job-name=pairs-reduce -o json
+{"pod": "pairs-reduce-p4h5l", "phase": "Succeeded", "state": {"terminated": {"containerID": "containerd://38d62405973304d6d3fd7276967787da4a28ae67f08243b547fd8519dba3c99d", "exitCode": 0, "finishedAt": "2026-11-20T08:00:08Z", "reason": "Completed", "startedAt": "2026-11-20T08:00:07Z"}}, "resources": {"limits": {"cpu": "1", "memory": "160Mi"}, "requests": {"cpu": "500m", "memory": "64Mi"}}}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 logs pairs-reduce-p4h5l
+output=s3://hh-lake/lab5/parallel/pairs.csv pairs=12308 sum=48175
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+TOP10
+android + kotlin = 784
+ios + swift = 561
+android sdk + kotlin = 514
+java + kotlin = 498
+android + android sdk = 459
+android + java = 418
+android + git = 372
+android sdk + java = 334
+git + kotlin = 307
+dart + flutter = 290
+METRICS {"elapsed_s": 0.172, "process_peak_rss_bytes": 56729600, "cgroup_memory_peak_bytes": 56193024}
+COMPARE parallel rows=12308 all_equal=True top10_equal=True
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+android + kotlin = 784
+ios + swift = 561
+android sdk + kotlin = 514
+java + kotlin = 498
+android + android sdk = 459
+android + java = 418
+android + git = 372
+android sdk + java = 334
+git + kotlin = 307
+dart + flutter = 290

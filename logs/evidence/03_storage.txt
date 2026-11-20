@@ -1,0 +1,13 @@
+$ head -n 6 logs/04_migrate.txt
+$ python scripts/experiments.py migrate
+source=http://127.0.0.1:9010 target=Kubernetes/rustfs:9000 via port-forward
+object=s3://hh-lake/raw/it_vacancies_2024.csv bytes=847619384
+source_sha256=303db922b541e4440906f5a7e8be32fb55e8808f950ffddb8c272f1548212a65
+target_sha256=303db922b541e4440906f5a7e8be32fb55e8808f950ffddb8c272f1548212a65
+SHA256_MATCH=True
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get deployment rustfs
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+rustfs   1/1     1            1           3m39s
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get pvc
+NAME          STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+rustfs-data   Bound    pvc-31259fcc-8c0b-4d3e-a468-b71300ca2a2d   5Gi        RWO            standard       <unset>                 3m39s

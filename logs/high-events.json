@@ -1,0 +1,170 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:07Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "high",
+        "namespace": "lab5",
+        "resourceVersion": "1036",
+        "uid": "055233c7-44a9-4ed2-b34b-9095d1e69b2b"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:07Z",
+      "message": "0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }.",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:07Z",
+        "name": "high.18e9b1ea95c43b73",
+        "namespace": "lab5",
+        "resourceVersion": "1041",
+        "uid": "fae3116d-935f-44dc-bd57-a4f2173fa9e0"
+      },
+      "reason": "FailedScheduling",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "",
+      "source": {
+        "component": "default-scheduler"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:10Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "high",
+        "namespace": "lab5",
+        "resourceVersion": "1040",
+        "uid": "055233c7-44a9-4ed2-b34b-9095d1e69b2b"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:10Z",
+      "message": "Successfully assigned lab5/high to lab5-worker",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:10Z",
+        "name": "high.18e9b1eb4a338e76",
+        "namespace": "lab5",
+        "resourceVersion": "1050",
+        "uid": "3fc73855-49fb-40b7-bf3e-8cb826c59472"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "",
+      "source": {
+        "component": "default-scheduler"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:10Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{hold}",
+        "kind": "Pod",
+        "name": "high",
+        "namespace": "lab5",
+        "resourceVersion": "1049",
+        "uid": "055233c7-44a9-4ed2-b34b-9095d1e69b2b"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:10Z",
+      "message": "Container image \"lab5-pairs:1\" already present on machine",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:10Z",
+        "name": "high.18e9b1eb60b1d0b8",
+        "namespace": "lab5",
+        "resourceVersion": "1052",
+        "uid": "e0df8a7d-fb15-4316-bdf1-367cbe6e62dc"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "lab5-worker",
+      "source": {
+        "component": "kubelet",
+        "host": "lab5-worker"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:10Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{hold}",
+        "kind": "Pod",
+        "name": "high",
+        "namespace": "lab5",
+        "resourceVersion": "1049",
+        "uid": "055233c7-44a9-4ed2-b34b-9095d1e69b2b"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:10Z",
+      "message": "Created container: hold",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:10Z",
+        "name": "high.18e9b1eb612b6a9a",
+        "namespace": "lab5",
+        "resourceVersion": "1053",
+        "uid": "1b60dcc8-1f45-4136-8b5d-477dbe400c8d"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "lab5-worker",
+      "source": {
+        "component": "kubelet",
+        "host": "lab5-worker"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:11Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{hold}",
+        "kind": "Pod",
+        "name": "high",
+        "namespace": "lab5",
+        "resourceVersion": "1049",
+        "uid": "055233c7-44a9-4ed2-b34b-9095d1e69b2b"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:11Z",
+      "message": "Started container hold",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:11Z",
+        "name": "high.18e9b1eb6467a03f",
+        "namespace": "lab5",
+        "resourceVersion": "1054",
+        "uid": "9c27f027-7e5e-4a5a-8f31-2f0358907855"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "lab5-worker",
+      "source": {
+        "component": "kubelet",
+        "host": "lab5-worker"
+      },
+      "type": "Normal"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

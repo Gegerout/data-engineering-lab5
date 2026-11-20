@@ -1,0 +1,170 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:58:58Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "cpu-wait",
+        "namespace": "lab5",
+        "resourceVersion": "995",
+        "uid": "1900c61a-f87b-4c58-acf7-3e655c61901f"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:58:58Z",
+      "message": "0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:58:58Z",
+        "name": "cpu-wait.18e9b1e87b97561b",
+        "namespace": "lab5",
+        "resourceVersion": "996",
+        "uid": "28c58226-494b-415d-bb1a-9f89d5713774"
+      },
+      "reason": "FailedScheduling",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "",
+      "source": {
+        "component": "default-scheduler"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:01Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "cpu-wait",
+        "namespace": "lab5",
+        "resourceVersion": "997",
+        "uid": "1900c61a-f87b-4c58-acf7-3e655c61901f"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:01Z",
+      "message": "Successfully assigned lab5/cpu-wait to lab5-worker",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:01Z",
+        "name": "cpu-wait.18e9b1e9318bfe63",
+        "namespace": "lab5",
+        "resourceVersion": "1006",
+        "uid": "739180c9-4af8-48cf-bd9c-b74a738aeab0"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "",
+      "source": {
+        "component": "default-scheduler"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:01Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{hold}",
+        "kind": "Pod",
+        "name": "cpu-wait",
+        "namespace": "lab5",
+        "resourceVersion": "1005",
+        "uid": "1900c61a-f87b-4c58-acf7-3e655c61901f"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:01Z",
+      "message": "Container image \"lab5-pairs:1\" already present on machine",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:01Z",
+        "name": "cpu-wait.18e9b1e9482152bb",
+        "namespace": "lab5",
+        "resourceVersion": "1008",
+        "uid": "a7a91196-60c2-4e00-8971-06b90dd7858c"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "lab5-worker",
+      "source": {
+        "component": "kubelet",
+        "host": "lab5-worker"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:01Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{hold}",
+        "kind": "Pod",
+        "name": "cpu-wait",
+        "namespace": "lab5",
+        "resourceVersion": "1005",
+        "uid": "1900c61a-f87b-4c58-acf7-3e655c61901f"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:01Z",
+      "message": "Created container: hold",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:01Z",
+        "name": "cpu-wait.18e9b1e948f2ef60",
+        "namespace": "lab5",
+        "resourceVersion": "1009",
+        "uid": "0cf0d797-5680-4394-aa28-d1663dd8797b"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "lab5-worker",
+      "source": {
+        "component": "kubelet",
+        "host": "lab5-worker"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-11-20T07:59:02Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{hold}",
+        "kind": "Pod",
+        "name": "cpu-wait",
+        "namespace": "lab5",
+        "resourceVersion": "1005",
+        "uid": "1900c61a-f87b-4c58-acf7-3e655c61901f"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-11-20T07:59:02Z",
+      "message": "Started container hold",
+      "metadata": {
+        "creationTimestamp": "2026-11-20T07:59:02Z",
+        "name": "cpu-wait.18e9b1e94c622cfd",
+        "namespace": "lab5",
+        "resourceVersion": "1010",
+        "uid": "ef1e073d-6a62-454d-b86e-e927d83f21f6"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "lab5-worker",
+      "source": {
+        "component": "kubelet",
+        "host": "lab5-worker"
+      },
+      "type": "Normal"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

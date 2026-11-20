@@ -1,0 +1,17 @@
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get pods -l '!app' -o 'custom-columns=POD:.metadata.name,PHASE:.status.phase,REASON:.status.containerStatuses[0].state.terminated.reason,EXIT:.status.containerStatuses[0].state.terminated.exitCode,LIMIT:.spec.containers[0].resources.limits.memory'
+POD                      PHASE       REASON      EXIT   LIMIT
+pairs-measure-ctt2t      Succeeded   Completed   0      512Mi
+pairs-oom-c664j          Failed      OOMKilled   137    64Mi
+pairs-parallel-0-ph5q5   Succeeded   Completed   0      160Mi
+pairs-parallel-1-26mzg   Succeeded   Completed   0      160Mi
+pairs-parallel-2-7772h   Succeeded   Completed   0      160Mi
+pairs-reduce-p4h5l       Succeeded   Completed   0      160Mi
+pairs-sized-rww7z        Succeeded   Completed   0      160Mi
+$ cat results/memory.json
+{
+  "elapsed_s": 7.277,
+  "process_peak_rss_bytes": 119046144,
+  "cgroup_memory_peak_bytes": 112902144,
+  "margin": 1.25,
+  "selected_limit_mib": 160
+}

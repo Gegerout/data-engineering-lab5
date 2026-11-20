@@ -1,0 +1,62 @@
+$ python scripts/experiments.py scheduling
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' get node lab5-worker -o custom-columns=NAME:.metadata.name,CPU:.status.capacity.cpu,ALLOCATABLE:.status.allocatable.cpu
+NAME          CPU   ALLOCATABLE
+lab5-worker   12    2
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/cpu-holder.yaml
+pod/cpu-holder created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/cpu-holder --timeout=60s
+pod/cpu-holder condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/cpu-wait.yaml
+pod/cpu-wait created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=cpu-wait --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE      REASON             OBJECT         MESSAGE
+0s          Warning   FailedScheduling   pod/cpu-wait   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.
+{"pod": "cpu-wait", "phase": "Pending", "conditions": [{"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:58:58Z", "message": "0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.", "reason": "Unschedulable", "status": "False", "type": "PodScheduled"}]}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 delete pod cpu-holder --wait=true
+pod "cpu-holder" deleted
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/cpu-wait --timeout=60s
+pod/cpu-wait condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=cpu-wait --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE      REASON             OBJECT         MESSAGE
+4s          Warning   FailedScheduling   pod/cpu-wait   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.
+1s          Normal    Scheduled          pod/cpu-wait   Successfully assigned lab5/cpu-wait to lab5-worker
+1s          Normal    Pulled             pod/cpu-wait   Container image "lab5-pairs:1" already present on machine
+1s          Normal    Created            pod/cpu-wait   Created container: hold
+0s          Normal    Started            pod/cpu-wait   Started container hold
+{"pod": "cpu-wait", "phase": "Running", "conditions": [{"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:02Z", "status": "True", "type": "PodReadyToStartContainers"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:01Z", "status": "True", "type": "Initialized"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:02Z", "status": "True", "type": "Ready"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:02Z", "status": "True", "type": "ContainersReady"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:01Z", "status": "True", "type": "PodScheduled"}]}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 delete pod cpu-wait --wait=true
+pod "cpu-wait" deleted
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/low.yaml
+pod/low created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/low --timeout=60s
+pod/low condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/high.yaml
+pod/high created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/high --timeout=90s
+pod/high condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=low --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE     REASON      OBJECT    MESSAGE
+5s          Normal   Scheduled   pod/low   Successfully assigned lab5/low to lab5-worker
+5s          Normal   Pulled      pod/low   Container image "lab5-pairs:1" already present on machine
+5s          Normal   Created     pod/low   Created container: hold
+5s          Normal   Started     pod/low   Started container hold
+4s          Normal   Preempted   pod/low   Preempted by pod 055233c7-44a9-4ed2-b34b-9095d1e69b2b on node lab5-worker
+3s          Normal   Killing     pod/low   Stopping container hold
+pod=low deleted
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=high --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE      REASON             OBJECT     MESSAGE
+4s          Warning   FailedScheduling   pod/high   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }.
+1s          Normal    Scheduled          pod/high   Successfully assigned lab5/high to lab5-worker
+1s          Normal    Pulled             pod/high   Container image "lab5-pairs:1" already present on machine
+1s          Normal    Created            pod/high   Created container: hold
+0s          Normal    Started            pod/high   Started container hold
+{"pod": "high", "phase": "Running", "conditions": [{"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:11Z", "status": "True", "type": "PodReadyToStartContainers"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:10Z", "status": "True", "type": "Initialized"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:11Z", "status": "True", "type": "Ready"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:11Z", "status": "True", "type": "ContainersReady"}, {"lastProbeTime": null, "lastTransitionTime": "2026-11-20T07:59:10Z", "status": "True", "type": "PodScheduled"}]}
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get pods -o wide
+NAME                      READY   STATUS      RESTARTS   AGE     IP            NODE          NOMINATED NODE   READINESS GATES
+high                      1/1     Running     0          4s      10.244.1.11   lab5-worker   <none>           <none>
+pairs-measure-ctt2t       0/1     Completed   0          2m7s    10.244.1.3    lab5-worker   <none>           <none>
+pairs-oom-c664j           0/1     OOMKilled   0          2m44s   10.244.1.2    lab5-worker   <none>           <none>
+pairs-sized-rww7z         0/1     Completed   0          115s    10.244.1.4    lab5-worker   <none>           <none>
+rustfs-59797768f8-nlcwp   1/1     Running     0          47s     10.244.1.7    lab5-worker   <none>           <none>
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 delete pod low high --wait=true --ignore-not-found=true
+pod "high" deleted

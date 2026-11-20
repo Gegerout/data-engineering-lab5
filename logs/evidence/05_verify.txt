@@ -1,0 +1,16 @@
+$ '.venv/bin/python' scripts/verify.py
+single pairs=12308 all_equal=True top10_equal=True
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+parallel pairs=12308 all_equal=True top10_equal=True
+sha256=2fbb0cb56c472f162f2c184e7045ead2ab16727b84a9cab53a8ca359b0840f71
+TOP10
+android + kotlin = 784
+ios + swift = 561
+android sdk + kotlin = 514
+java + kotlin = 498
+android + android sdk = 459
+android + java = 418
+android + git = 372
+android sdk + java = 334
+git + kotlin = 307
+dart + flutter = 290

@@ -1,0 +1,9 @@
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' get nodes
+NAME                 STATUS   ROLES           AGE     VERSION
+lab5-control-plane   Ready    control-plane   6m18s   v1.32.2
+lab5-worker          Ready    <none>          6m8s    v1.32.2
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' get node lab5-worker -o custom-columns=NAME:.metadata.name,CPU:.status.capacity.cpu,ALLOCATABLE:.status.allocatable.cpu
+NAME          CPU   ALLOCATABLE
+lab5-worker   12    2
+$ docker image inspect lab5-pairs:1 --format '{{.Id}} {{.Architecture}}'
+sha256:9a151bda5fcb662083ad28726b5f117a44fffae7a066ba1acdfd06c087134cc4 arm64

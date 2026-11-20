@@ -1,0 +1,26 @@
+$ python scripts/experiments.py scheduling
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' get node lab5-worker -o custom-columns=NAME:.metadata.name,CPU:.status.capacity.cpu,ALLOCATABLE:.status.allocatable.cpu
+NAME          CPU   ALLOCATABLE
+lab5-worker   12    2
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/cpu-holder.yaml
+pod/cpu-holder created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/cpu-holder --timeout=60s
+pod/cpu-holder condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/cpu-wait.yaml
+pod/cpu-wait created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=cpu-wait --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE      REASON             OBJECT         MESSAGE
+0s          Warning   FailedScheduling   pod/cpu-wait   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 delete pod cpu-holder --wait=true
+pod "cpu-holder" deleted
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 wait --for=condition=Ready pod/cpu-wait --timeout=60s
+pod/cpu-wait condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get events --field-selector involvedObject.name=cpu-wait --sort-by=.metadata.creationTimestamp
+LAST SEEN   TYPE      REASON             OBJECT         MESSAGE
+4s          Warning   FailedScheduling   pod/cpu-wait   0/2 nodes are available: 1 Insufficient cpu, 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/2 nodes are available: 1 No preemption victims found for incoming pod, 1 Preemption is not helpful for scheduling.
+1s          Normal    Scheduled          pod/cpu-wait   Successfully assigned lab5/cpu-wait to lab5-worker
+1s          Normal    Pulled             pod/cpu-wait   Container image "lab5-pairs:1" already present on machine
+1s          Normal    Created            pod/cpu-wait   Created container: hold
+0s          Normal    Started            pod/cpu-wait   Started container hold
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 delete pod cpu-wait --wait=true
+pod "cpu-wait" deleted

@@ -1,0 +1,41 @@
+$ python scripts/experiments.py quota
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/quota.yaml
+namespace/lab5-quota created
+resourcequota/compute created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/quota-first.yaml
+pod/quota-first created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota wait --for=condition=Ready pod/quota-first --timeout=60s
+pod/quota-first condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota describe resourcequota compute
+Name:            compute
+Namespace:       lab5-quota
+Resource         Used  Hard
+--------         ----  ----
+limits.cpu       400m  1
+limits.memory    64Mi  256Mi
+pods             1     2
+requests.cpu     400m  600m
+requests.memory  32Mi  128Mi
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' create -f manifests/quota-second.yaml
+Error from server (Forbidden): error when creating "manifests/quota-second.yaml": pods "quota-second" is forbidden: exceeded quota: compute, requested: requests.cpu=400m, used: requests.cpu=400m, limited: requests.cpu=600m
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota get pods
+NAME          READY   STATUS    RESTARTS   AGE
+quota-first   1/1     Running   0          2s
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota delete pod quota-first --wait=true
+pod "quota-first" deleted
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' apply -f manifests/quota-second.yaml
+pod/quota-second created
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota wait --for=condition=Ready pod/quota-second --timeout=60s
+pod/quota-second condition met
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota describe resourcequota compute
+Name:            compute
+Namespace:       lab5-quota
+Resource         Used  Hard
+--------         ----  ----
+limits.cpu       400m  1
+limits.memory    64Mi  256Mi
+pods             1     2
+requests.cpu     400m  600m
+requests.memory  32Mi  128Mi
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5-quota delete pod quota-second --wait=true
+pod "quota-second" deleted

@@ -1,0 +1,21 @@
+$ python scripts/experiments.py migrate
+source=http://127.0.0.1:9010 target=Kubernetes/rustfs:9000 via port-forward
+object=s3://hh-lake/raw/it_vacancies_2024.csv bytes=847619384
+source_sha256=303db922b541e4440906f5a7e8be32fb55e8808f950ffddb8c272f1548212a65
+target_sha256=303db922b541e4440906f5a7e8be32fb55e8808f950ffddb8c272f1548212a65
+SHA256_MATCH=True
+$ 'tmp/bin/kubectl' --kubeconfig 'tmp/kubeconfig' -n lab5 get deployment,pod,service,pvc -o wide
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE    CONTAINERS   IMAGES                SELECTOR
+deployment.apps/rustfs   1/1     1            1           2m2s   rustfs       rustfs/rustfs:1.0.0   app=rustfs
+
+NAME                          READY   STATUS      RESTARTS   AGE     IP           NODE          NOMINATED NODE   READINESS GATES
+pod/pairs-measure-ctt2t       0/1     Completed   0          2m25s   10.244.1.3   lab5-worker   <none>           <none>
+pod/pairs-oom-c664j           0/1     OOMKilled   0          3m2s    10.244.1.2   lab5-worker   <none>           <none>
+pod/pairs-sized-rww7z         0/1     Completed   0          2m13s   10.244.1.4   lab5-worker   <none>           <none>
+pod/rustfs-59797768f8-nlcwp   1/1     Running     0          65s     10.244.1.7   lab5-worker   <none>           <none>
+
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE    SELECTOR
+service/rustfs   ClusterIP   10.96.43.100   <none>        9000/TCP   2m2s   app=rustfs
+
+NAME                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE    VOLUMEMODE
+persistentvolumeclaim/rustfs-data   Bound    pvc-31259fcc-8c0b-4d3e-a468-b71300ca2a2d   5Gi        RWO            standard       <unset>                 2m2s   Filesystem

@@ -1,0 +1,6 @@
+*
+!Dockerfile
+!requirements.txt
+!scripts/
+!scripts/pairs.py
+!scripts/common.py
